@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório Meteorológico</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>    
-
+<body>
 
     <div class="weather-container">
         <h1>Previsão do Tempo</h1>
@@ -26,40 +25,29 @@
             <div class="description" id="description">Descrição</div>
         </div>
     </div>
-
-    <!-- jQuery CDN (Biblioteca necessária para o código abaixo funcionar) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        // JavaScript – Lógica da aplicação e consumo da API com jQuery
-        
         $(document).ready(function() {
             
-            // Configuração da API
-            // IMPORTANTE: Substitua 'SUA_CHAVE_AQUI' pela chave que você pegou no site da OpenWeatherMap
             const apiKey = 'SUA_CHAVE_AQUI'; 
-            const units = 'metric'; // Para Celsius
-            const lang = 'pt_br';  // Português
+            const units = 'metric';
+            const lang = 'pt_br';
 
-            // Evento de clique no botão
             $('#search-btn').click(function() {
                 const city = $('#city-input').val();
 
                 if(city) {
-                    // URL da API
                     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}&lang=${lang}`;
 
-                    // Requisição AJAX com jQuery
                     $.ajax({
                         url: url,
                         type: 'GET',
                         dataType: 'json',
                         success: function(data) {
-                            // Sucesso: Atualizar o DOM
                             displayWeather(data);
                         },
                         error: function() {
-                            // Erro: Cidade não encontrada
                             alert('Cidade não encontrada! Tente novamente.');
                             $('#weather-result').hide();
                         }
@@ -69,21 +57,19 @@
                 }
             });
 
-            // Função para exibir os dados na tela
             function displayWeather(data) {
                 $('#city-name').text(`${data.name}, ${data.sys.country}`);
                 $('#temperature').text(`${Math.round(data.main.temp)}°C`);
                 $('#description').text(data.weather[0].description);
                 
-                // Ícone oficial da OpenWeatherMap
                 const iconCode = data.weather[0].icon;
                 const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
                 $('#weather-icon').attr('src', iconUrl);
 
-                // Mostrar o resultado com animação
                 $('#weather-result').fadeIn();
             }
         });
     </script>
+
 </body>
 </html>
